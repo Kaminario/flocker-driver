@@ -1,0 +1,12 @@
+"version": 1
+"control-service":
+   "hostname": "flocker-vm3"
+   "port": 4524
+
+dataset:
+    backend: "kaminario_flocker_driver"
+    storage_host: "192.168.5.22"
+    username: "admin"
+    password: "admin"
+    is_ssl: "False"
+    is_dedup: "True"
