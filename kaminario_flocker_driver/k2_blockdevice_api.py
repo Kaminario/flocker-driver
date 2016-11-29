@@ -268,10 +268,13 @@ class K2BlockDeviceAPI(object):
         # First check if we are already mapped
         mapped = self.krest.search('mappings', volume=volume)
 
-        if mapped:
-            LOG.info("Mapped server %s", mapped)
-            # raise exception for attached volume
-            raise blockdevice.AlreadyAttachedVolume(blockdevice_id)
+        if mapped.total > 0:
+            # Get the mapped host
+            mapped_host = self.api_client.rgetattr(mapped.hits[0], "host", None)
+            if mapped_host != host:
+                LOG.info("Mapped server %s", mapped_host)
+                # raise exception for attached volume
+                raise blockdevice.AlreadyAttachedVolume(blockdevice_id)
 
         # Make sure host should not be associate with host group
         # Note: Currently host groups not supported.
